@@ -1,0 +1,35 @@
+/* ./src/index.css */
+
+/*! @import */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.circular{
+    position: absolute;
+    left: 45%;
+    top: -40px;
+}
+.dnav{
+    line-height: 3rem;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+}
+body {
+    padding-top: 50px;
+}
+.el-menu-vertical{
+
+    position: fixed !important;
+}
+.el-header{
+    position: fixed !important;
+    width: 100%;
+    background-color: #fff !important;
+    top: 0;
+    z-index: 10 !important;
+}
+.el-table .warning-row {
+    background: oldlace;
+  }
