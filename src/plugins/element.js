@@ -47,7 +47,9 @@ import {
     Tag,
     Checkbox,
     Steps,
-    Step
+    Step,
+    DatePicker,
+    TimePicker
   } from 'element-ui';
   Vue.use(Steps)
   Vue.use(Step)
@@ -92,6 +94,8 @@ import {
   Vue.use(Aside);
   Vue.use(Main);
   Vue.use(PageHeader);
+  Vue.use(TimePicker)
+  Vue.use(DatePicker)
   Vue.use(Loading.directive);
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$msgbox = MessageBox;

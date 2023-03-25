@@ -138,6 +138,10 @@ export default {
 .el-aside {
     padding-top: 50px;
 }
+.el-main{
+    display: flex;
+    justify-content: center;
+}
 .el-button {}
 .el-button.is-circle{
     padding: 6px !important;

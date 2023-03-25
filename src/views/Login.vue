@@ -99,7 +99,6 @@ export default {
                 }
                 else {
                     localStorage.clear()
-                    console.log(res.data.data);
                     localStorage.setItem('token', JSON.stringify(res.data.data.token))
                     localStorage.setItem('uuid', JSON.stringify(res.data.data.uuid))
                     setTimeout(()=>{

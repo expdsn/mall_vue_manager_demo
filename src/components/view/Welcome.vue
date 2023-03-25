@@ -22,7 +22,13 @@ import { userInfo } from 'os'
 import Vue from 'vue'
 
 export default {
-    
+    data() {
+        return {
+            loginUser: {
+                
+            }
+        }
+    },
     created: async function () {
         //关闭测试信息
 
@@ -41,20 +47,21 @@ export default {
         let json = localStorage.getItem("uuid")
         let uuid =JSON.parse(json)
         this.$http.get("/user/" +uuid).then(res=>{
-            console.log(res.data);
             if (res.data.code == 200) {
                 that.loginUser = res.data.data
-                localStorage.setItem("loginUser", loginUser)
+                localStorage.setItem("loginUser", JSON.stringify(that.loginUser))
             }else {
                 that.$message.warning('登陆信息过期，请重新登陆')
                 that.$router.replace('/Login')
                 localStorage.clear()
             }
         }).catch(e=> {
-            // that.$message.warning('服务器异常')
-            // // that.$router.replace('/Login')
+            console.log(e);
+            that.$message.warning('服务器异常')
+            that.$router.replace('/Login')
 
-            // // localStorage.clear()
+
+            localStorage.clear()
         })
 
 
@@ -87,13 +94,6 @@ export default {
         },
         getClanName(e) {
             return this.clanName[e]
-        }
-    },
-    data() {
-        return {
-            loginUser: {
-                
-            }
         }
     }
 }
