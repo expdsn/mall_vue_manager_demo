@@ -9,21 +9,31 @@ import './assets/tailwind.css'
 import axios from 'axios'
 import VueClipboard from 'vue-clipboard2'
 Vue.use(VueClipboard)
-//配置请求的跟路径
-// axios.defaults.baseURL = 'http://bt1.jaycao.com:3000/'
-// http://106.12.130.56:3000/
-// axios.defaults.baseURL = '/api'
-axios.defaults.baseURL = 'http://119.8.123.19:3000'
+
+axios.defaults.baseURL = 'http://localhost:3002'
 
 axios.interceptors.request.use(function (config) {
-  let requestToken = JSON.parse((window.localStorage.getItem('token'))) // 获取我们存储的 token
-  config.headers['Authorization'] =  requestToken; // 将 token 放到 header 里面
+  let token = localStorage.getItem('token')
+  //当token存在时，将token放到header中
+  if (token) {
+    try {
+      let requestToken = JSON.parse(token)
+      config.headers['token'] =  requestToken; // 将 token 放到 header 里面
+      let loginUser = JSON.parse(localStorage.getItem('loginUser'))
+      //user登录用户存在时，将userid放入header中
+      if (loginUser) {
+        config.headers['userid'] = loginUser.id
   
-  let loginUser = JSON.parse(window.localStorage.getItem('loginUser'))
-  if (loginUser)
-  config.headers['userid'] = loginUser.userid
+      }
+    }catch(e) {
+      localStorage.removeItem("token")
+    }
+   
+  }
+  
+
   config.headers.post['Content-Type'] = 'application/json';
-  config.timeout = 60000;
+  config.timeout = 2000;
   return config;
 });
 

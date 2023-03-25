@@ -2,7 +2,7 @@
 
     <div class="login_container"   v-loading="loading">
         <div class="header">
-            <div>欢迎来到《九龍山庄》，请先登录</div>
+            <div>欢迎来到商城管理系统，请先登录</div>
         </div>
         <div class="login_box" >
             <div class="avatar_box">
@@ -57,24 +57,21 @@ export default {
 
                 ]
             },
-            logoUrl: 'https://pic.imgdb.cn/item/6193bdc22ab3f51d91b4506c.png'
+            logoUrl: 'https://pic.imgdb.cn/item/641e9a2ca682492fcc6cf340.png'
         }
 
     },
     created(){
-        let loginUser = JSON.parse(localStorage.getItem('loginUser'))
-        if(loginUser) {
-            this.$message.error('请勿重复登录')
-            this.$router.replace({path:'/Home'})
+        // let loginUser = JSON.parse(localStorage.getItem('loginUser'))
+        // if(loginUser) {
+        //     this.$message.error('请勿重复登录')
+        //     this.$router.replace({path:'/Home'})
             
-        }
+        // }
     },
      beforeDestroy () {
-        document.querySelector('body').removeAttribute('style')
     },
     beforeCreate () {
-    document.querySelector('body').setAttribute('style', 'padding-top:0;')
-    console.log(123);
     },
     methods: {
         changeHide(){
@@ -88,11 +85,11 @@ export default {
                 if (!valid) return
                 this.loading = true
                 const that = this
-                const { data:res } = await this.$http.post('/user/login', {
-                    userid : that.ruleForm.username,
+                this.$http.post('/user/login', {
+                    account : that.ruleForm.username,
                     passwd : that.ruleForm.passwd
-                })
-                if (res.code !==200) {
+                }).then(res=>{
+                    if (res.data.code !==200) {
                     setTimeout(()=>{
 
                         that.loading = false;
@@ -102,9 +99,9 @@ export default {
                 }
                 else {
                     localStorage.clear()
-                    localStorage.setItem('token', JSON.stringify(res.token))
-                    localStorage.setItem('loginUser', JSON.stringify(res.userInfo))
-                    
+                    console.log(res.data.data);
+                    localStorage.setItem('token', JSON.stringify(res.data.data.token))
+                    localStorage.setItem('uuid', JSON.stringify(res.data.data.uuid))
                     setTimeout(()=>{
                         that.$router.replace({path:'/Home'})
 
@@ -113,6 +110,13 @@ export default {
 
                     }, 1000)
                 }
+                }).catch(e=>{
+                    that.$message.warning('服务器异常')
+
+                    this.loading = false
+
+                })
+
             })
         }
     }
@@ -188,7 +192,7 @@ export default {
     }
     .login_container {
         height: 100%;
-        background-image: url(https://coc.gameark.cn/images/index_03.jpg);
+        background-color: #dddddd;
         background-size: auto 100%;
         background-repeat: no-repeat;
     }
